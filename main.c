@@ -42,6 +42,7 @@ int main() {
         printf("------------------------------------------------------\n");
         printf("Escolha uma opcao: ");
         scanf("%d", &opcaoPrincipal);
+        scanf("%*[^\n]"); scanf("%*c"); // Limpa o buffer do teclado para evitar erros
 
         switch (opcaoPrincipal) {
             case 1:
