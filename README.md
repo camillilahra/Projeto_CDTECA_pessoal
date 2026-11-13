@@ -1,17 +1,18 @@
-# CDteca Pessoal - Checkpoint 1
+# CDteca Pessoal - Checkpoint 2
 
-Projeto desenvolvido para a disciplina de Engenharia de Software (Universidade Positivo).
+Projeto desenvolvido para a disciplina de Programação / Engenharia de Software (Universidade Positivo).
 
 ## Integrantes do Grupo
-- Camilli Garcia Lahra (RGM: 46898689)
-- Viviana Alexandra Quijada Perez (RGM: 49339877)
-- Isabella Fragoso Harps (RGM: 8849798821)
+* Camilli Garcia Lahra (RGM: 46898689)
+* Viviana Alexandra Quijada Perez (RGM: 49339877)
+* Isabella (RGM: [Inserir RGM])
 
-## Estrutura do Projeto
-- **Módulo 1:** Gestão de Usuários (Camilli)
-- **Módulo 2:** Catálogo de Álbuns (Viviana)
-- **Módulo 3:** Controle de Empréstimos (Isabella)
-- **Módulo 4:** Reproduções e Relatórios (Equipe)
+## Sobre o Projeto
+Segunda entrega do sistema de gerenciamento de CDs pessoal em linguagem C. Nesta etapa, o código foi dividido em módulos (arquivos `.h`), passou a salvar os dados em arquivos `.csv` e ganhou relatórios utilizando matriz bidimensional para representar a estante.
 
-## Como Executar
-O código principal está localizado no arquivo `main.c` e pode ser compilado em qualquer ambiente C (GCC, VS Code, Dev-C++ ou compiladores online).
+## Estrutura dos Arquivos
+* `main.c`: Menu principal e chamada dos módulos.
+* `usuarios.h`: Cadastro, busca, edição e remoção de usuários (`usuarios.csv`).
+* `albuns.h`: Controle do catálogo de CDs (`albuns.csv`).
+* `emprestimos.h`: Registro de empréstimos e devoluções (`emprestimos.csv`).
+* `relatorios.h`: Relatório de álbum mais emprestado, valor total do acervo e mapa da estante em matriz 3x4.
