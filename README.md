@@ -5,7 +5,7 @@ Projeto desenvolvido para a disciplina de Programação / Engenharia de Software
 ## Integrantes do Grupo
 * Camilli Garcia Lahra (RGM: 46898689)
 * Viviana Alexandra Quijada Perez (RGM: 49339877)
-* Isabella (RGM: [Inserir RGM])
+* Isabella (RGM: 49798821)
 
 ## Sobre o Projeto
 Segunda entrega do sistema de gerenciamento de CDs pessoal em linguagem C. Nesta etapa, o código foi dividido em módulos (arquivos `.h`), passou a salvar os dados em arquivos `.csv` e ganhou relatórios utilizando matriz bidimensional para representar a estante.
