@@ -1,163 +1,156 @@
-#ifndef ALBUNS_H
-#define ALBUNS_H
+#ifndef USUARIOS_H
+#define USUARIOS_H
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-struct Album {
-    int idAlbum;
-    char titulo[50];
-    char artista[40];
-    int anoLancamento;
-    float precoEstimado;
-    int disponivel;
+struct Usuario {
+    int idUsuario;
+    char nome[50];
+    char email[50];
+    int totalAlbunsCadastrados;
+    int ativo;
 };
 
-struct Album catalogoAlbuns[50];
-int totalAlbuns = 0;
+struct Usuario listaUsuarios[50];
+int totalUsuarios = 0;
 
-void salvarAlbunsCSV() {
-    FILE *arq = fopen("albuns.csv", "w");
+void salvarUsuariosCSV() {
+    FILE *arq = fopen("usuarios.csv", "w");
     if (arq == NULL) return;
-    for (int i = 0; i < totalAlbuns; i++) {
-        fprintf(arq, "%d;%s;%s;%d;%.2f;%d\n",
-                catalogoAlbuns[i].idAlbum,
-                catalogoAlbuns[i].titulo,
-                catalogoAlbuns[i].artista,
-                catalogoAlbuns[i].anoLancamento,
-                catalogoAlbuns[i].precoEstimado,
-                catalogoAlbuns[i].disponivel);
+    for (int i = 0; i < totalUsuarios; i++) {
+        fprintf(arq, "%d;%s;%s;%d;%d\n",
+                listaUsuarios[i].idUsuario,
+                listaUsuarios[i].nome,
+                listaUsuarios[i].email,
+                listaUsuarios[i].totalAlbunsCadastrados,
+                listaUsuarios[i].ativo);
     }
     fclose(arq);
 }
 
-void carregarAlbunsCSV() {
-    FILE *arq = fopen("albuns.csv", "r");
+void carregarUsuariosCSV() {
+    FILE *arq = fopen("usuarios.csv", "r");
     if (arq == NULL) return;
 
-    totalAlbuns = 0;
-    while (fscanf(arq, "%d;%49[^;];%39[^;];%d;%f;%d\n",
-                  &catalogoAlbuns[totalAlbuns].idAlbum,
-                  catalogoAlbuns[totalAlbuns].titulo,
-                  catalogoAlbuns[totalAlbuns].artista,
-                  &catalogoAlbuns[totalAlbuns].anoLancamento,
-                  &catalogoAlbuns[totalAlbuns].precoEstimado,
-                  &catalogoAlbuns[totalAlbuns].disponivel) == 6) {
-        totalAlbuns++;
-        if (totalAlbuns >= 50) break;
+    totalUsuarios = 0;
+    while (fscanf(arq, "%d;%49[^;];%49[^;];%d;%d\n",
+                  &listaUsuarios[totalUsuarios].idUsuario,
+                  listaUsuarios[totalUsuarios].nome,
+                  listaUsuarios[totalUsuarios].email,
+                  &listaUsuarios[totalUsuarios].totalAlbunsCadastrados,
+                  &listaUsuarios[totalUsuarios].ativo) == 5) {
+        totalUsuarios++;
+        if (totalUsuarios >= 50) break;
     }
     fclose(arq);
 }
 
-void cadastrarAlbum() {
-    if (totalAlbuns >= 50) {
-        printf("\n[ALERTA] Catalogo cheio!\n");
+void cadastrarUsuario() {
+    if (totalUsuarios >= 50) {
+        printf("\n[ALERTA] Limite de usuarios atingido!\n");
         return;
     }
-    printf("\n--- CADASTRAR NOVO ALBUM ---\n");
-    printf("ID do Album: ");
-    scanf("%d", &catalogoAlbuns[totalAlbuns].idAlbum);
-    printf("Titulo do CD: ");
-    scanf(" %49[^\n]", catalogoAlbuns[totalAlbuns].titulo);
-    printf("Artista / Banda: ");
-    scanf(" %39[^\n]", catalogoAlbuns[totalAlbuns].artista);
-    printf("Ano de Lancamento: ");
-    scanf("%d", &catalogoAlbuns[totalAlbuns].anoLancamento);
-    printf("Preco Estimado (R$): ");
-    scanf("%f", &catalogoAlbuns[totalAlbuns].precoEstimado);
+    printf("\n--- CADASTRAR NOVO USUARIO ---\n");
+    printf("ID do Usuario: ");
+    scanf("%d", &listaUsuarios[totalUsuarios].idUsuario);
+    printf("Nome Completo: ");
+    scanf(" %49[^\n]", listaUsuarios[totalUsuarios].nome);
+    printf("E-mail: ");
+    scanf(" %49[^\n]", listaUsuarios[totalUsuarios].email);
 
-    catalogoAlbuns[totalAlbuns].disponivel = 1;
+    listaUsuarios[totalUsuarios].totalAlbunsCadastrados = 0;
+    listaUsuarios[totalUsuarios].ativo = 1;
 
-    totalAlbuns++;
-    salvarAlbunsCSV();
-    printf("\n[SUCESSO] Album salvo em albuns.csv!\n");
+    totalUsuarios++;
+    salvarUsuariosCSV();
+    printf("\n[SUCESSO] Usuario cadastrado e salvo em usuarios.csv!\n");
 }
 
-void listarOuBuscarAlbuns() {
-    int op;
+void listarOuBuscarUsuarios() {
+    int tipoBusca;
     char termo[50];
-    printf("\n1. Listar todos os albuns\n2. Buscar por titulo ou artista\nEscolha: ");
-    scanf("%d", &op);
+    printf("\n1. Listar todos os ativos\n2. Buscar por nome\nEscolha: ");
+    scanf("%d", &tipoBusca);
 
-    if (op == 2) {
-        printf("Digite o termo de busca: ");
+    if (tipoBusca == 2) {
+        printf("Digite parte do nome: ");
         scanf(" %49[^\n]", termo);
     }
 
-    printf("\n--- CATALOGO DE ALBUNS ---\n");
+    printf("\n--- USUARIOS ENCONTRADOS ---\n");
     int achou = 0;
-    for (int i = 0; i < totalAlbuns; i++) {
-        if (catalogoAlbuns[i].disponivel == 1) {
-            if (op == 1 || strstr(catalogoAlbuns[i].titulo, termo) != NULL || strstr(catalogoAlbuns[i].artista, termo) != NULL) {
-                printf("ID: %d | %s - %s (%d) | Valor: R$ %.2f\n",
-                       catalogoAlbuns[i].idAlbum,
-                       catalogoAlbuns[i].titulo,
-                       catalogoAlbuns[i].artista,
-                       catalogoAlbuns[i].anoLancamento,
-                       catalogoAlbuns[i].precoEstimado);
+    for (int i = 0; i < totalUsuarios; i++) {
+        if (listaUsuarios[i].ativo == 1) {
+            if (tipoBusca == 1 || strstr(listaUsuarios[i].nome, termo) != NULL) {
+                printf("ID: %d | Nome: %s | E-mail: %s | Albuns: %d\n",
+                       listaUsuarios[i].idUsuario,
+                       listaUsuarios[i].nome,
+                       listaUsuarios[i].email,
+                       listaUsuarios[i].totalAlbunsCadastrados);
                 achou++;
             }
         }
     }
-    if (!achou) printf("Nenhum album encontrado.\n");
+    if (!achou) printf("Nenhum usuario encontrado.\n");
 }
 
-void editarAlbum() {
+void editarUsuario() {
     int id, achou = 0;
-    printf("\nDigite o ID do album para editar: ");
+    printf("\nDigite o ID do usuario para editar: ");
     scanf("%d", &id);
 
-    for (int i = 0; i < totalAlbuns; i++) {
-        if (catalogoAlbuns[i].idAlbum == id && catalogoAlbuns[i].disponivel == 1) {
-            printf("Novo Titulo (atual: %s): ", catalogoAlbuns[i].titulo);
-            scanf(" %49[^\n]", catalogoAlbuns[i].titulo);
-            printf("Novo Preco (atual: %.2f): ", catalogoAlbuns[i].precoEstimado);
-            scanf("%f", &catalogoAlbuns[i].precoEstimado);
+    for (int i = 0; i < totalUsuarios; i++) {
+        if (listaUsuarios[i].idUsuario == id && listaUsuarios[i].ativo == 1) {
+            printf("Novo Nome (atual: %s): ", listaUsuarios[i].nome);
+            scanf(" %49[^\n]", listaUsuarios[i].nome);
+            printf("Novo E-mail (atual: %s): ", listaUsuarios[i].email);
+            scanf(" %49[^\n]", listaUsuarios[i].email);
 
-            salvarAlbunsCSV();
-            printf("\n[SUCESSO] Album atualizado!\n");
+            salvarUsuariosCSV();
+            printf("\n[SUCESSO] Dados atualizados!\n");
             achou = 1;
             break;
         }
     }
-    if (!achou) printf("\n[ERRO] Album nao encontrado.\n");
+    if (!achou) printf("\n[ERRO] Usuario nao encontrado.\n");
 }
 
-void removerAlbum() {
+void removerUsuario() {
     int id, achou = 0;
-    printf("\nDigite o ID do album para excluir: ");
+    printf("\nDigite o ID do usuario para remover: ");
     scanf("%d", &id);
 
-    for (int i = 0; i < totalAlbuns; i++) {
-        if (catalogoAlbuns[i].idAlbum == id && catalogoAlbuns[i].disponivel == 1) {
-            catalogoAlbuns[i].disponivel = 0;
-            salvarAlbunsCSV();
-            printf("\n[SUCESSO] Album excluido!\n");
+    for (int i = 0; i < totalUsuarios; i++) {
+        if (listaUsuarios[i].idUsuario == id && listaUsuarios[i].ativo == 1) {
+            listaUsuarios[i].ativo = 0;
+            salvarUsuariosCSV();
+            printf("\n[SUCESSO] Usuario removido do sistema!\n");
             achou = 1;
             break;
         }
     }
-    if (!achou) printf("\n[ERRO] Album nao encontrado.\n");
+    if (!achou) printf("\n[ERRO] Usuario nao encontrado.\n");
 }
 
-void moduloAlbuns() {
+void moduloUsuarios() {
     int op;
     do {
-        printf("\n=== MODULO 2: CATALOGO DE ALBUNS ===\n");
-        printf("1. Cadastrar Album\n");
-        printf("2. Listar / Buscar Albuns\n");
-        printf("3. Editar Album\n");
-        printf("4. Excluir Album\n");
+        printf("\n=== MODULO 1: GESTAO DE USUARIOS ===\n");
+        printf("1. Cadastrar Usuario\n");
+        printf("2. Listar / Buscar Usuarios\n");
+        printf("3. Editar Usuario\n");
+        printf("4. Remover Usuario\n");
         printf("0. Voltar ao Menu Principal\n");
         printf("Escolha: ");
         scanf("%d", &op);
 
         switch (op) {
-            case 1: cadastrarAlbum(); break;
-            case 2: listarOuBuscarAlbuns(); break;
-            case 3: editarAlbum(); break;
-            case 4: removerAlbum(); break;
+            case 1: cadastrarUsuario(); break;
+            case 2: listarOuBuscarUsuarios(); break;
+            case 3: editarUsuario(); break;
+            case 4: removerUsuario(); break;
         }
     } while (op != 0);
 }
