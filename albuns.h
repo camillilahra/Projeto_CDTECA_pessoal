@@ -18,9 +18,10 @@ struct Album catalogoAlbuns[50];
 int totalAlbuns = 0;
 
 void salvarAlbunsCSV() {
+    int i;
     FILE *arq = fopen("albuns.csv", "w");
     if (arq == NULL) return;
-    for (int i = 0; i < totalAlbuns; i++) {
+    for (i = 0; i < totalAlbuns; i++) {
         fprintf(arq, "%d;%s;%s;%d;%.2f;%d\n",
                 catalogoAlbuns[i].idAlbum,
                 catalogoAlbuns[i].titulo,
@@ -77,6 +78,8 @@ void cadastrarAlbum() {
 void listarOuBuscarAlbuns() {
     int op;
     char termo[50] = "";
+    int achou = 0;
+    int i;
     printf("\n1. Listar todos os albuns\n2. Buscar por titulo ou artista\nEscolha: ");
     scanf("%d", &op);
 
@@ -86,8 +89,7 @@ void listarOuBuscarAlbuns() {
     }
 
     printf("\n--- CATALOGO DE ALBUNS ---\n");
-    int achou = 0;
-    for (int i = 0; i < totalAlbuns; i++) {
+    for (i = 0; i < totalAlbuns; i++) {
         if (catalogoAlbuns[i].disponivel == 1) {
             if (op == 1 || (strlen(termo) > 0 && (strstr(catalogoAlbuns[i].titulo, termo) != NULL || strstr(catalogoAlbuns[i].artista, termo) != NULL))) {
                 printf("ID: %d | %s - %s (%d) | Valor: R$ %.2f\n",
@@ -109,10 +111,11 @@ void listarOuBuscarAlbuns() {
 
 void editarAlbum() {
     int id, achou = 0;
+    int i;
     printf("\nDigite o ID do album para editar: ");
     scanf("%d", &id);
 
-    for (int i = 0; i < totalAlbuns; i++) {
+    for (i = 0; i < totalAlbuns; i++) {
         if (catalogoAlbuns[i].idAlbum == id && catalogoAlbuns[i].disponivel == 1) {
             printf("Novo Titulo (atual: %s): ", catalogoAlbuns[i].titulo);
             scanf(" %49[^\n]", catalogoAlbuns[i].titulo);
@@ -130,10 +133,11 @@ void editarAlbum() {
 
 void removerAlbum() {
     int id, achou = 0;
+    int i;
     printf("\nDigite o ID do album para excluir: ");
     scanf("%d", &id);
 
-    for (int i = 0; i < totalAlbuns; i++) {
+    for (i = 0; i < totalAlbuns; i++) {
         if (catalogoAlbuns[i].idAlbum == id && catalogoAlbuns[i].disponivel == 1) {
             catalogoAlbuns[i].disponivel = 0;
             salvarAlbunsCSV();

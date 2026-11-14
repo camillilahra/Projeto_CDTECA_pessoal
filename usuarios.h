@@ -17,9 +17,10 @@ struct Usuario listaUsuarios[50];
 int totalUsuarios = 0;
 
 void salvarUsuariosCSV() {
+    int i;
     FILE *arq = fopen("usuarios.csv", "w");
     if (arq == NULL) return;
-    for (int i = 0; i < totalUsuarios; i++) {
+    for (i = 0; i < totalUsuarios; i++) {
         fprintf(arq, "%d;%s;%s;%d;%d\n",
                 listaUsuarios[i].idUsuario,
                 listaUsuarios[i].nome,
@@ -71,6 +72,8 @@ void cadastrarUsuario() {
 void listarOuBuscarUsuarios() {
     int tipoBusca;
     char termo[50];
+    int achou = 0;
+    int i;
     printf("\n1. Listar todos os ativos\n2. Buscar por nome\nEscolha: ");
     scanf("%d", &tipoBusca);
 
@@ -80,8 +83,7 @@ void listarOuBuscarUsuarios() {
     }
 
     printf("\n--- USUARIOS ENCONTRADOS ---\n");
-    int achou = 0;
-    for (int i = 0; i < totalUsuarios; i++) {
+    for (i = 0; i < totalUsuarios; i++) {
         if (listaUsuarios[i].ativo == 1) {
             if (tipoBusca == 1 || strstr(listaUsuarios[i].nome, termo) != NULL) {
                 printf("ID: %d | Nome: %s | E-mail: %s | Albuns: %d\n",
@@ -98,10 +100,11 @@ void listarOuBuscarUsuarios() {
 
 void editarUsuario() {
     int id, achou = 0;
+    int i;
     printf("\nDigite o ID do usuario para editar: ");
     scanf("%d", &id);
 
-    for (int i = 0; i < totalUsuarios; i++) {
+    for (i = 0; i < totalUsuarios; i++) {
         if (listaUsuarios[i].idUsuario == id && listaUsuarios[i].ativo == 1) {
             printf("Novo Nome (atual: %s): ", listaUsuarios[i].nome);
             scanf(" %49[^\n]", listaUsuarios[i].nome);
@@ -119,10 +122,11 @@ void editarUsuario() {
 
 void removerUsuario() {
     int id, achou = 0;
+    int i;
     printf("\nDigite o ID do usuario para remover: ");
     scanf("%d", &id);
 
-    for (int i = 0; i < totalUsuarios; i++) {
+    for (i = 0; i < totalUsuarios; i++) {
         if (listaUsuarios[i].idUsuario == id && listaUsuarios[i].ativo == 1) {
             listaUsuarios[i].ativo = 0;
             salvarUsuariosCSV();

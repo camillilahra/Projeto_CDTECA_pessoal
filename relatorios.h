@@ -6,19 +6,22 @@
 #include "emprestimos.h"
 
 void relatorioCruzadoMaisEmprestado() {
+    int maxEmprestimos = -1;
+    int indiceMaisEmprestado = -1;
+    int i;
+    int j;
+    int contagem;
+
     printf("\n--- [RELATORIO ANALITICO] ALBUM MAIS EMPRESTADO ---\n");
     if (totalAlbuns == 0 || totalEmprestimos == 0) {
         printf("Dados insuficientes para cruzamento.\n");
         return;
     }
 
-    int maxEmprestimos = -1;
-    int indiceMaisEmprestado = -1;
-
-    for (int i = 0; i < totalAlbuns; i++) {
+    for (i = 0; i < totalAlbuns; i++) {
         if (catalogoAlbuns[i].disponivel == 1) {
-            int contagem = 0;
-            for (int j = 0; j < totalEmprestimos; j++) {
+            contagem = 0;
+            for (j = 0; j < totalEmprestimos; j++) {
                 if (listaEmprestimos[j].idAlbumEmprestado == catalogoAlbuns[i].idAlbum) {
                     contagem++;
                 }
@@ -43,7 +46,8 @@ void relatorioCruzadoMaisEmprestado() {
 void relatorioValorTotalAcervo() {
     float soma = 0;
     int ativos = 0;
-    for (int i = 0; i < totalAlbuns; i++) {
+    int i;
+    for (i = 0; i < totalAlbuns; i++) {
         if (catalogoAlbuns[i].disponivel == 1) {
             soma += catalogoAlbuns[i].precoEstimado;
             ativos++;
@@ -57,9 +61,11 @@ void relatorioValorTotalAcervo() {
 void exibirMatrizEstante() {
     int estante[3][4] = {0};
     int k = 0;
+    int lin;
+    int col;
 
-    for (int lin = 0; lin < 3; lin++) {
-        for (int col = 0; col < 4; col++) {
+    for (lin = 0; lin < 3; lin++) {
+        for (col = 0; col < 4; col++) {
             while (k < totalAlbuns && catalogoAlbuns[k].disponivel == 0) {
                 k++;
             }
@@ -71,9 +77,9 @@ void exibirMatrizEstante() {
     }
 
     printf("\n--- [MATRIZ 2D] MAPA FISICO DA ESTANTE DE CDS ---\n");
-    for (int lin = 0; lin < 3; lin++) {
+    for (lin = 0; lin < 3; lin++) {
         printf("Prateleira %d: ", lin + 1);
-        for (int col = 0; col < 4; col++) {
+        for (col = 0; col < 4; col++) {
             if (estante[lin][col] != 0)
                 printf("[CD #%02d] ", estante[lin][col]);
             else

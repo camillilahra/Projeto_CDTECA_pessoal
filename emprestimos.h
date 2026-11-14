@@ -17,9 +17,10 @@ struct Emprestimo listaEmprestimos[50];
 int totalEmprestimos = 0;
 
 void salvarEmprestimosCSV() {
+    int i;
     FILE *arq = fopen("emprestimos.csv", "w");
     if (arq == NULL) return;
-    for (int i = 0; i < totalEmprestimos; i++) {
+    for (i = 0; i < totalEmprestimos; i++) {
         fprintf(arq, "%d;%d;%s;%s;%d\n",
                 listaEmprestimos[i].idEmprestimo,
                 listaEmprestimos[i].idAlbumEmprestado,
@@ -70,12 +71,13 @@ void registrarEmprestimo() {
 }
 
 void listarEmprestimos() {
+    int i;
     printf("\n--- HISTORICO DE EMPRESTIMOS ---\n");
     if (totalEmprestimos == 0) {
         printf("Nenhum emprestimo registrado.\n");
         return;
     }
-    for (int i = 0; i < totalEmprestimos; i++) {
+    for (i = 0; i < totalEmprestimos; i++) {
         printf("ID: %d | Album ID: %d | Amigo: %s | Data: %s | Status: %s\n",
                listaEmprestimos[i].idEmprestimo,
                listaEmprestimos[i].idAlbumEmprestado,
@@ -87,10 +89,11 @@ void listarEmprestimos() {
 
 void editarEmprestimo() {
     int id, achou = 0;
+    int i;
     printf("\nDigite o ID do emprestimo para alterar o nome/data: ");
     scanf("%d", &id);
 
-    for (int i = 0; i < totalEmprestimos; i++) {
+    for (i = 0; i < totalEmprestimos; i++) {
         if (listaEmprestimos[i].idEmprestimo == id) {
             printf("Novo Nome do Amigo: ");
             scanf(" %39[^\n]", listaEmprestimos[i].nomeAmigo);
@@ -108,10 +111,11 @@ void editarEmprestimo() {
 
 void darBaixaDevolucao() {
     int id, achou = 0;
+    int i;
     printf("\nDigite o ID do emprestimo devolvido: ");
     scanf("%d", &id);
 
-    for (int i = 0; i < totalEmprestimos; i++) {
+    for (i = 0; i < totalEmprestimos; i++) {
         if (listaEmprestimos[i].idEmprestimo == id && listaEmprestimos[i].devolvido == 0) {
             listaEmprestimos[i].devolvido = 1;
             salvarEmprestimosCSV();

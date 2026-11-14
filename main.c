@@ -22,13 +22,13 @@ void pausarTela() {
 }
 
 int main() {
+    int opcaoPrincipal;
     setlocale(LC_CTYPE, "Portuguese");
 
     carregarUsuariosCSV();
     carregarAlbunsCSV();
     carregarEmprestimosCSV();
 
-    int opcaoPrincipal;
     do {
         limparTela();
         printf("======================================================\n");
@@ -42,7 +42,7 @@ int main() {
         printf("------------------------------------------------------\n");
         printf("Escolha uma opcao: ");
         scanf("%d", &opcaoPrincipal);
-        scanf("%*[^\n]"); scanf("%*c"); // Limpa o buffer do teclado para evitar erros
+        scanf("%*[^\n]"); scanf("%*c"); /* Limpa o buffer do teclado para evitar erros */
 
         switch (opcaoPrincipal) {
             case 1:
